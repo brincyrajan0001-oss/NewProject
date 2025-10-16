@@ -392,7 +392,8 @@ export default function CreatePatientForm() {
         </div>
 
         <div className="form-row">
-          <label>Sex</label>
+          <label>Sex</label>git init
+
           <select name="sex" value={form.sex} onChange={handleChange} required style={{ width: "100%" }}>
             <option value="">Select</option>
             <option value="female">Female</option>
