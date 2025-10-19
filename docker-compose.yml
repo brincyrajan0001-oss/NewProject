@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: demo
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123brinz
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d patients"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - patient-network
+
+  api:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=production
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=demo
+      - DB_USER=postgres
+      - DB_PASSWORD=123brinz
+      - API_KEY=change-me-secure-api-key-here
+      - CRYPTO_KEY=change-me-min-32-chars-encryption-key
+      - WEB_ORIGIN=http://localhost:5173
+      - PORT=8080
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - patient-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  patient-network:
+    driver: bridge
