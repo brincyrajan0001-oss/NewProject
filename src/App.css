@@ -1,38 +1,423 @@
-.App {
-  text-align: center;
+/* ==== ADVANCED PRODUCT UI DESIGN ==== */
+:root {
+  /* --primary-color: #60A5FA;; */
+  --primary-color: var(--gradient);
+  --primary-gradient: linear-gradient(135deg, #60A5FA,#2563EB);
+  --secondary-bg: rgba(255, 255, 255, 0.7);
+  --border-color: #e5e7eb;
+  --text-color: #1f2937;
+  --text-muted: #6b7280;
+  --shadow-soft: 0 8px 30px rgba(0, 0, 0, 0.08);
+  --shadow-hover: 0 12px 40px rgba(123, 47, 247, 0.25);
+  --blur: blur(20px);
+  --radius-xl: 24px;
+  --gradient: linear-gradient(135deg, #2563eb, #60a5fa);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  font-family: "Poppins", "Segoe UI", sans-serif;
+  background: linear-gradient(180deg, #f0f7ff 0%, #ffffff 100%);
+  color: var(--text-color);
+  margin: 0;
+  padding: 2rem;
+  min-height: 100vh;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+/* ==== LAYOUT ==== */
+/* .app-container {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  padding: 2rem;
+} */
+
+.panel {
+  flex: 1;
+  min-width: 350px;
+  background: var(--secondary-bg);
+  backdrop-filter: var(--blur);
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+  box-shadow: var(--shadow-soft);
+  transition: all 0.4s ease;
+  /* animation: fadeIn 0.6s ease; */
+  height: auto;
+}
+
+/* .panel:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-4px);
+} */
+.buton-back {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+}
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-.App-header {
-  background-color: #282c34;
+/* ==== HEADINGS ==== */
+.panel h2 {
+  font-size: 1.2rem;
+  color: #60A5FA;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.2rem;
+  border-bottom: 2px solid rgba(123, 47, 247, 0.1);
+  padding-bottom: 0.5rem;
+}
+
+/* .panel h2::before {
+  content: "⚡";
+  font-size: 1.3rem;
+} */
+
+/* ==== INPUTS ==== */
+/* input {
+  width: 80%;
+  padding: 0.6rem 0.7rem;
+  margin-bottom: 1.3rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+} */
+/* ==== FORMS ==== */
+label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 500;
+  font-size: 14px;
+}
+/* input:focus {
+  outline: none;
+  border-color: #7b2ff7;
+  border-color: #60A5FA;
+  box-shadow: 0 0 8px rgba(123, 47, 247, 0.3);
+} */
+
+/* ==== BUTTONS ==== */
+/* button {
+  background: linear-gradient(135deg, #2563EB, #60A5FA);
+  border: none;
+  color: #fff;
+  padding: 0.9rem 2rem;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+  display: block;
+  margin: 1rem auto 0;
+} */
+.back-btn {
+  display: flex;        /* override block display */
+  margin: 1rem 0 0 auto;        /* pushes it to the right end */
+  background: var(--gradient);
+    /* optional: make it minimal */
+    color: #fff;
+  font-weight: 600;
+  box-shadow: none;
+  padding: 0.6rem 1.2rem;
+  justify-content: end;
+}
+
+.back-btn:hover {
+  /* background: linear-gradient(135deg, #2563EB, #60A5FA); */
+  background: var(--gradient);;
+    /* optional: make it minimal */
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+}
+
+/* ==== CARD LIST ==== */
+.patient-card {
+  background: rgba(240, 240, 255, 0.8);
+  border-left: 4px solid #60A5FA;
+  border-radius: 14px;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+}
+
+.patient-card:hover {
+  background: rgba(123, 47, 247, 0.1);
+  transform: translateY(-4px);
+}
+
+.patient-card strong {
+  color: var(--primary-color);
+  font-size: 1.1rem;
+}
+input::placeholder {
+  font-size: 14px;
+}
+.buton-create{
+  display: flex;
+  justify-content: end;
+}
+/* ==== RESPONSIVE ==== */
+/* @media (max-width: 900px) {
+  .app-container {
+    flex-direction: column;
+  }
+  .panel {
+    width: 100%;
+  }
+} */
+/* ==== RESPONSIVE ==== */
+@media (max-width: 900px) {
+  .app-container {
+    flex-direction: column;
+   
+    height: auto;
+
+  }
+  .panel {
+    height: auto;
+  }
+}
+/* General layout */
+.app-container {
+  font-family: "Poppins", sans-serif;
+  background: #f5f7fa;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+ /* padding: 2rem;  */
+}
+
+/* Title */
+.app-title {
+  color:#0744c8;
+  font-size:24px;
+  font-weight: 600;
+  /* margin-bottom: 1.5rem; */
+}
+
+/* Tabs container */
+.tab-buttons {
+  display: flex;
+  background: #e3e7ee;
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 6px;
+  gap: 5px;
+  /* margin-bottom: 2rem; */
+}
+
+.tab {
+  background: transparent;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #555;
+  transition: all 0.3s ease;
+}
+
+.tab:hover {
+  background: #dce2eb;
+}
+
+.tab.active {
+  background: var(--gradient);
   color: white;
+  font-weight: 600;
 }
 
-.App-link {
-  color: #61dafb;
+/* Content area */
+.tab-content {
+  /* background: white; */
+  border-radius: 12px;
+  /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); */
+  padding: 2rem;
+  width: 100%;
+  max-width: 700px;
+  /* animation: fadeIn 0.4s ease; */
 }
 
-@keyframes App-logo-spin {
+/* Input styles (shared for form fields) */
+input,
+select,
+textarea {
+  width: 96%;
+  padding: 0.7rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  transition: border-color 0.3s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  /* border-color: #1a237e; */
+  border-color: #60A5FA;
+}
+
+/* Buttons */
+button {
+  /* background: #1a237e; */
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: var(--gradient);
+}
+
+button:hover {
+  /* background: #1a237e; */
+  background: var(--gradient);
+}
+
+/* Mobile-friendly */
+@media (max-width: 900px) {
+  .tab-content {
+    width: 95%;
+    padding: 1.5rem;
+  }
+  .tab-buttons {
+    flex-direction: column;
+  }
+  .tab {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Simple fade animation */
+/* @keyframes fadeIn {
   from {
-    transform: rotate(0deg);
+    opacity: 0;
+    transform: translateY(5px);
   }
   to {
-    transform: rotate(360deg);
+    opacity: 1;
+    transform: translateY(0);
   }
+} */
+.panel {
+  padding: 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.search-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+/* .search-bar input {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+} */
+
+/* .search-bar button {
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  background-color: #2563eb;
+  color: white;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+} */
+
+/* .search-bar button:hover {
+  background-color: #1d4ed8;
+} */
+
+.patient-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 15px;
+}
+
+.patient-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s;
+}
+
+.patient-card:hover {
+  transform: translateY(-2px);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.mrn, .dob {
+  font-size: 13px;
+  color: #555;
+}
+
+.card-details {
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.card-footer {
+  text-align: right;
+}
+
+.card-footer button {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  background-color: #10b981;
+  color: white;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.card-footer button:hover {
+  background-color: #059669;
+}
+
+.expand-btn {
+  font-size: 12px;
+  background: none;
+  border: none;
+  color: #2563eb;
+  cursor: pointer;
 }
