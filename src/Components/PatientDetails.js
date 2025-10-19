@@ -1,60 +1,3 @@
-// import React, { useEffect, useState } from "react";
-// import { mockServer } from "../mockServer";
-
-
-// export default function PatientDetails({ patientId, goBack }) {
-//   const [patient, setPatient] = useState(null);
-//   const [edit, setEdit] = useState({});
-//   const [error, setError] = useState("");
-//   const [mergeHint, setMergeHint] = useState("");
-
-//   useEffect(() => {
-//     mockServer.getPatient(patientId).then(setPatient);
-//   }, [patientId]);
-
-//   const handleUpdate = async () => {
-//     const res = await mockServer.updatePatient(patient.id, edit, patient.etag);
-//     if (res.error === "412 Precondition Failed") {
-//       setMergeHint("Another update occurred. Refetching...");
-//       setTimeout(async () => {
-//         const fresh = await mockServer.getPatient(patient.id);
-//         setPatient(fresh);
-//         setMergeHint("Data refreshed. Please review and update again.");
-//       }, 1000);
-//     } else if (res.error) {
-//       setError(res.error);
-//     } else {
-//       setPatient(res.data);
-//       setMergeHint("");
-//     }
-//   };
-
-//   if (!patient) return <p>Loading...</p>;
-
-//   return (
-//     <div className="panel">
-//         {/* <div className="buton-back">
-//     <button onClick={goBack}>← Back</button>
-//   </div> */}
-//    <button onClick={goBack} className="back-btn">← Back</button>
-
-//       <h2>
-//         {patient.firstName} {patient.lastName}
-//       </h2>
-//       <p style={{ fontSize: "14px" }}>MRN: {patient.mrn}</p>
-//       <p className="etag" style={{ fontSize: "14px" }}>ETag: {patient.etag}</p>
-//       <label>Edit Last Name</label>
-//       <input
-//         value={edit.lastName || ""}
-//         onChange={(e) => setEdit({ lastName: e.target.value })}
-//         placeholder="Enter new last name"
-//       />
-//      <div className="buton-create"> <button onClick={handleUpdate}>Update</button></div> 
-//       {error && <div className="error">{error}</div>}
-//       {mergeHint && <div style={{ color: "orange" }}>{mergeHint}</div>}
-//     </div>
-//   );
-// }
 import React, { useEffect, useState } from "react";
 import { getPatient, updatePatient } from "../api/ApiService";
 
@@ -68,19 +11,31 @@ export default function PatientDetails({ patientId, goBack }) {
     loadPatient();
   }, [patientId]);
 
+
   const loadPatient = async () => {
     try {
       const res = await getPatient(patientId);
       if (!res.notModified) {
+        const patientData = res.data.data;
+        const formattedDob = patientData.dob ? patientData.dob.split("T")[0] : "";
         setPatient({ ...res.data.data, etag: res.etag });
-        setEdit(res.data.data); // initialize edit with patient data
+        setEdit({ ...patientData, dob: formattedDob });
+      
+      
+        
       }
     } catch (err) {
       console.error(err);
     }
   };
-
+  
+  
   const handleUpdate = async () => {
+    console.log("Sending update:", {
+      id: patient.id,
+      data: edit,
+      etag: patient.etag,
+    });
     const res = await updatePatient(patient.id, edit, patient.etag);
     if (res.error === "412 Precondition Failed") {
       setMergeHint("Another update occurred. Refetching...");
@@ -90,8 +45,9 @@ export default function PatientDetails({ patientId, goBack }) {
       setMergeHint("");
       setError("");
     }
+    console.log(handleUpdate,'handleupdate')
   };
-
+  console.log(patient,'patient')
   if (!patient) return <p>Loading...</p>;
 
   const handleChange = (field, value) => {
@@ -104,7 +60,7 @@ export default function PatientDetails({ patientId, goBack }) {
 
       <h2>{patient.firstName} {patient.lastName}</h2>
       <p style={{ fontSize: "14px" }}>MRN: {patient.mrn}</p>
-      <p className="etag" style={{ fontSize: "14px" }}>ETag: {patient.etag}</p>
+      <p className="etag" style={{ fontSize: "14px" }}>ETag:{patient.etag || "Not available"}</p>
 
       <div className="form-group">
         <label>MRN</label>
@@ -137,7 +93,8 @@ export default function PatientDetails({ patientId, goBack }) {
         <label>Date of Birth</label>
         <input
           type="date"
-          value={edit.dob ? edit.dob.split("T")[0] : ""}
+          // value={edit.dob ? edit.dob.split("T")[0] : ""}
+          value={edit.dob  || ""}
           onChange={(e) => handleChange("dob", e.target.value)}
         />
       </div>
@@ -147,6 +104,7 @@ export default function PatientDetails({ patientId, goBack }) {
         <select
           value={edit.sex || ""}
           onChange={(e) => handleChange("sex", e.target.value)}
+          style={{ width: "100%" }}
         >
           <option value="">Select</option>
           <option value="male">Male</option>

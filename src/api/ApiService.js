@@ -1,8 +1,7 @@
-// src/api/ApiService.js
 import axios from "axios";
 import ApiConfig from "./ApiConfig";
 
-const API_KEY = "change-me-secure-api-key-here"; // replace with your .env value
+const API_KEY = "change-me-secure-api-key-here";
 
 const api = axios.create({
   baseURL: ApiConfig.BASE_URL + ApiConfig.PATH,
@@ -12,45 +11,57 @@ const api = axios.create({
   },
 });
 
-// ---- Patient APIs ----
-
-// Create patient (POST /patients)
+// Create patient
 export const createPatient = async (data) => {
   const res = await api.post("patients", data);
   return res.data;
 };
 
-// Search patients (GET /patients?search=...)
+// Search patients
 export const searchPatients = async (query) => {
   const res = await api.get(`patients?search=${query}`);
   return res.data;
 };
 
-// Get patient by ID (GET /patients/:id)
-export const getPatient = async (id, etag = null) => {
-  const headers = etag ? { "If-None-Match": etag } : {};
-  try {
-    const res = await api.get(`patients/${id}`, { headers });
-    return { data: res.data, etag: res.headers.etag };
-  } catch (err) {
-    if (err.response?.status === 304) {
-      return { notModified: true }; // handle 304 Not Modified
+// Get patient by ID with ETag
+export const getPatient = async (id) => {
+    try {
+      const res = await api.get(`patients/${id}`);
+  
+      // Prefer header, fallback to response body field
+      const etag = res.headers["etag"] || res.data.data?.etag || null;
+  
+      return { data: res.data, etag };
+    } catch (err) {
+      if (err.response?.status === 304) {
+        return { notModified: true };
+      }
+      throw err;
     }
-    throw err;
-  }
-};
-
-// Update patient (PUT /patients/:id)
+  };
+  
 export const updatePatient = async (id, data, etag) => {
-  try {
-    const res = await api.put(`patients/${id}`, data, {
-      headers: { "If-Match": etag },
-    });
-    return { data: res.data };
-  } catch (err) {
-    if (err.response?.status === 412) {
-      return { error: "412 Precondition Failed" };
+
+    const payload = { ...data };
+    delete payload.etag;
+  
+    try {
+      const res = await api.put(`patients/${id}`, payload, {
+        headers: {
+          "If-Match": `"${etag}"`,
+          "x-api-key": API_KEY,
+        },
+      });
+      return { data: res.data };
+    } catch (err) {
+      console.error("Update failed:", err.response?.status, err.response?.data);
+      if (err.response?.status === 412) {
+        return { error: "412 Precondition Failed" };
+      } else if (err.response?.status === 428) {
+        return { error: "PRECONDITION_REQUIRED" };
+      }
+      throw err;
     }
-    throw err;
-  }
-};
+  };
+  
+  
