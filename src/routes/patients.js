@@ -49,6 +49,7 @@ router.post('/', async (req, res) => {
     // Format response
     const response = {
       data: {
+        etag:etag,
         id: decryptedPatient.id,
         mrn: decryptedPatient.mrn,
         firstName: decryptedPatient.first_name,
@@ -119,6 +120,7 @@ router.get('/:id', async (req, res) => {
     // Format response
     const response = {
       data: {
+        etag: etag,
         id: patient.id,
         mrn: patient.mrn,
         firstName: patient.first_name,
@@ -230,7 +232,9 @@ router.put('/:id', async (req, res) => {
     
     // Format response
     const response = {
+      
       data: {
+        etag:etag,
         id: decryptedPatient.id,
         mrn: decryptedPatient.mrn,
         firstName: decryptedPatient.first_name,

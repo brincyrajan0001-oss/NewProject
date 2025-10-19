@@ -86,6 +86,12 @@ class PatientDAL {
       // Validate ETag
       const currentETag = generateETag(currentPatient);
       const quotedETag = `"${currentETag}"`;
+      
+      console.log('ETag Debug Info:');
+      console.log('Expected ETag:', expectedETag);
+      console.log('Current ETag:', quotedETag);
+      console.log('ETags Match:', quotedETag === expectedETag);
+      
       if (expectedETag && quotedETag !== expectedETag) {
         throw new Error('PRECONDITION_FAILED');
       }

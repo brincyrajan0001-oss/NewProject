@@ -18,7 +18,12 @@ const generateETag = (patient) => {
     updatedAt: patient.updated_at
   };
   
-  const jsonString = JSON.stringify(canonicalData, Object.keys(canonicalData).sort());
+  const sortedKeys = Object.keys(canonicalData).sort();
+  const sortedData = {};
+  sortedKeys.forEach(key => {
+    sortedData[key] = canonicalData[key];
+  });
+  const jsonString = JSON.stringify(sortedData);
   return crypto.createHash('sha256').update(jsonString).digest('hex');
 };
 
