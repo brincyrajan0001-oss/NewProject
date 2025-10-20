@@ -44,6 +44,7 @@ export default function PatientDetails({ patientId, goBack }) {
       setPatient({ ...res.data.data, etag: res.data.etag });
       setMergeHint("");
       setError("");
+      alert("✅ Patient updated successfully!");
     }
     console.log(handleUpdate,'handleupdate')
   };
@@ -59,8 +60,8 @@ export default function PatientDetails({ patientId, goBack }) {
       <button onClick={goBack} className="back-btn">← Back</button>
 
       <h2>{patient.firstName} {patient.lastName}</h2>
-      <p style={{ fontSize: "14px" }}>MRN: {patient.mrn}</p>
-      <p className="etag" style={{ fontSize: "14px" }}>ETag:{patient.etag || "Not available"}</p>
+      <p style={{ fontSize: "14px" }}>  <span style={{ color: "#60A5FA", fontWeight: "600" }}>MRN:</span> {patient.mrn}</p>
+      <p className="etag" style={{ fontSize: "14px"}}> <span style={{ color: "#60A5FA", fontWeight: "600" }}>ETag:</span>{patient.etag || "Not available"}</p>
 
       <div className="form-group">
         <label>MRN</label>
@@ -77,6 +78,7 @@ export default function PatientDetails({ patientId, goBack }) {
           value={edit.firstName || ""}
           onChange={(e) => handleChange("firstName", e.target.value)}
           placeholder="Enter first name"
+          
         />
       </div>
 

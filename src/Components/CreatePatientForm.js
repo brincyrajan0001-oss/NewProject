@@ -53,8 +53,8 @@ export default function CreatePatientForm() {
   
     try {
       const response = await axios.post(ApiConfig.PATIENT_CREATE, form, { headers });
-  
-      setMessage("✅ Patient created successfully!");
+      alert("✅ Patient created successfully!");
+      // setMessage("✅ Patient created successfully!");
       setError("");
       console.log("API Response:", response.data);
   
